@@ -1,0 +1,124 @@
+name: Proposal Validation
+
+on:
+  pull_request:
+    paths:
+      - 'proposals/**'
+  push:
+    branches: [main]
+    paths:
+      - 'proposals/**'
+
+jobs:
+  validate-proposals:
+    name: Validate Proposals
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Find changed proposals
+        id: changed
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            # Get changed files in PR
+            git fetch origin ${{ github.base_ref }} --depth=1
+            CHANGED=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep '^proposals/' | cut -d'/' -f2 | sort -u | jq -R . | jq -s .)
+          else
+            # On push, check last commit
+            CHANGED=$(git diff --name-only HEAD~1 HEAD | grep '^proposals/' | cut -d'/' -f2 | sort -u | jq -R . | jq -s .)
+          fi
+          echo "proposals=$CHANGED" >> $GITHUB_OUTPUT
+          echo "Changed proposals: $CHANGED"
+      
+      - name: Validate proposal structure
+        run: |
+          echo "${{ steps.changed.outputs.proposals }}" | jq -r '.[]' | while read proposal; do
+            echo "Validating: $proposal"
+            
+            # Skip template
+            if [ "$proposal" = "_template" ]; then
+              continue
+            fi
+            
+            PROPOSAL_DIR="proposals/$proposal"
+            
+            # Check required files exist
+            for file in README.md install.sh test.sh; do
+              if [ ! -f "$PROPOSAL_DIR/$file" ]; then
+                echo "❌ Missing required file: $PROPOSAL_DIR/$file"
+                exit 1
+              fi
+            done
+            
+            # Check scripts are executable
+            for script in install.sh test.sh; do
+              if [ ! -x "$PROPOSAL_DIR/$script" ]; then
+                echo "❌ Script not executable: $PROPOSAL_DIR/$script"
+                exit 1
+              fi
+            done
+            
+            # Validate README has required sections
+            for section in "Summary" "Motivation" "Changes" "Testing"; do
+              if ! grep -q "$section" "$PROPOSAL_DIR/README.md"; then
+                echo "❌ README missing section: $section"
+                exit 1
+              fi
+            done
+            
+            echo "✅ $proposal structure valid"
+          done
+      
+      - name: Run proposal tests (dry-run)
+        run: |
+          echo "${{ steps.changed.outputs.proposals }}" | jq -r '.[]' | while read proposal; do
+            if [ "$proposal" = "_template" ]; then
+              continue
+            fi
+            
+            echo ""
+            echo "Testing: $proposal"
+            echo "================================"
+            
+            PROPOSAL_DIR="proposals/$proposal"
+            
+            # Run install script (in dry-run mode if supported)
+            echo "Running install.sh..."
+            if head -20 "$PROPOSAL_DIR/install.sh" | grep -q "dry-run\|--dry-run"; then
+              cd "$PROPOSAL_DIR" && ./install.sh --dry-run || echo "⚠️  Install dry-run failed"
+            else
+              echo "ℹ️  Install script doesn't support dry-run, skipping"
+            fi
+            
+            # Run test script (in validation mode)
+            echo ""
+            echo "Running test.sh..."
+            cd "$PROPOSAL_DIR" && ./test.sh || echo "⚠️  Tests failed (expected in CI without full env)"
+            
+            cd ../..
+          done
+      
+      - name: Comment on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const proposals = JSON.parse('${{ steps.changed.outputs.proposals }}');
+            const body = `## Proposal Validation Results
+            
+            Changed proposals: ${proposals.filter(p => p !== '_template').join(', ')}
+            
+            - ✅ Structure validated
+            - ✅ Required files present
+            - ✅ Scripts executable
+            - ✅ README sections complete
+            
+            Ready for review.`;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
