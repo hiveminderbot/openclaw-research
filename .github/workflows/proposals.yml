@@ -17,6 +17,28 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "0.10.6"
+      
+      - name: Checkout skill-validation-framework
+        uses: actions/checkout@v4
+        with:
+          repository: hiveminderbot/skill-validation-framework
+          path: skill-validation-framework
+      
+      - name: Install skill-validation-framework
+        run: |
+          cd skill-validation-framework
+          uv sync --extra dev
+          echo "$PWD/src" >> $GITHUB_PATH
+      
       - name: Find changed proposals
         id: changed
         run: |
@@ -60,7 +82,7 @@ jobs:
             done
             
             # Validate README has required sections
-            for section in "Summary" "Motivation" "Changes" "Testing"; do
+            for section in "Summary" "Motivation" "Changes" "Testing" "Skill Validation Report"; do
               if ! grep -q "$section" "$PROPOSAL_DIR/README.md"; then
                 echo "❌ README missing section: $section"
                 exit 1
@@ -99,26 +121,42 @@ jobs:
             cd ../..
           done
       
+      - name: Generate validation summary
+        if: github.event_name == 'pull_request'
+        run: |
+          echo "## Proposal Validation Report" > validation-summary.md
+          echo "" >> validation-summary.md
+          echo "| Proposal | Structure | Validation Report |" >> validation-summary.md
+          echo "|----------|-----------|-------------------|" >> validation-summary.md
+          
+          echo "${{ steps.changed.outputs.proposals }}" | jq -r '.[]' | while read proposal; do
+            if [ "$proposal" = "_template" ]; then
+              continue
+            fi
+            
+            # Check if validation report section exists
+            if grep -q "Skill Validation Report" "proposals/$proposal/README.md"; then
+              VALIDATION="✅ Present"
+            else
+              VALIDATION="❌ Missing"
+            fi
+            
+            echo "| $proposal | ✅ Valid | $VALIDATION |" >> validation-summary.md
+          done
+          
+          cat validation-summary.md
+      
       - name: Comment on PR
         if: github.event_name == 'pull_request'
         uses: actions/github-script@v7
         with:
           script: |
-            const proposals = JSON.parse('${{ steps.changed.outputs.proposals }}');
-            const body = `## Proposal Validation Results
-            
-            Changed proposals: ${proposals.filter(p => p !== '_template').join(', ')}
-            
-            - ✅ Structure validated
-            - ✅ Required files present
-            - ✅ Scripts executable
-            - ✅ README sections complete
-            
-            Ready for review.`;
+            const fs = require('fs');
+            const summary = fs.readFileSync('validation-summary.md', 'utf8');
             
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: body
+              body: summary
             });

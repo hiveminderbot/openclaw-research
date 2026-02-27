@@ -6,6 +6,7 @@ set -euo pipefail
 
 SKILL_DIR="$HOME/.openclaw/workspace/skills/cc-godmode"
 RESEARCH_FILE="$HOME/.openclaw/workspace/memory/openclaw-skills-research.md"
+VALIDATION_FRAMEWORK="$HOME/.openclaw/workspace/skill-validation-framework"
 
 echo "Evaluating cc-godmode Skill"
 echo "==========================="
@@ -18,6 +19,7 @@ if [ -d "$SKILL_DIR" ]; then
     echo "✅ Skill installed at: $SKILL_DIR"
 else
     echo "❌ Skill not found at: $SKILL_DIR"
+    echo "   Run ./install.sh first"
     exit 1
 fi
 
@@ -119,6 +121,59 @@ else
     echo "ℹ️  May use custom orchestration (check implementation)"
 fi
 
+# ============================================
+# SKILL VALIDATION FRAMEWORK REPORT
+# ============================================
+
+echo ""
+echo "========================================"
+echo "Skill Validation Framework Report"
+echo "========================================"
+
+if [ -d "$VALIDATION_FRAMEWORK" ]; then
+    cd "$VALIDATION_FRAMEWORK"
+    
+    # Security Scan
+    echo ""
+    echo "Security Scan:"
+    echo "--------------"
+    uv run skill-validate security "$SKILL_DIR" --format text 2>/dev/null || echo "⚠️  Security scan failed"
+    
+    # Structure Validation
+    echo ""
+    echo "Structure Validation:"
+    echo "---------------------"
+    uv run skill-validate validate "$SKILL_DIR" --format text 2>/dev/null || echo "⚠️  Validation failed"
+    
+    # Performance Benchmark
+    echo ""
+    echo "Performance Benchmark:"
+    echo "----------------------"
+    uv run skill-validate benchmark "$SKILL_DIR" --format text 2>/dev/null || echo "⚠️  Benchmark failed"
+    
+    # Full Report
+    echo ""
+    echo "Generating Full Report..."
+    echo "-------------------------"
+    REPORT_FILE="$PWD/validation-report-cc-godmode.md"
+    uv run skill-validate report "$SKILL_DIR" --output "$REPORT_FILE" 2>/dev/null || echo "⚠️  Report generation failed"
+    
+    if [ -f "$REPORT_FILE" ]; then
+        echo "✅ Report saved to: $REPORT_FILE"
+        echo ""
+        echo "Report Preview:"
+        echo "---------------"
+        head -30 "$REPORT_FILE"
+    fi
+else
+    echo "⚠️  skill-validation-framework not found at:"
+    echo "   $VALIDATION_FRAMEWORK"
+    echo ""
+    echo "Validation skipped. To enable:"
+    echo "  1. Ensure skill-validation-framework is cloned"
+    echo "  2. Run: uv sync in that directory"
+fi
+
 # Summary
 echo ""
 echo "==========================="
@@ -126,7 +181,7 @@ echo "Evaluation Summary"
 echo "==========================="
 echo ""
 echo "Next steps:"
-echo "  1. Manually test the skill with a real workflow"
+echo "  1. Review validation report above"
 echo "  2. Document specific patterns in memory/openclaw-skills-research.md"
 echo "  3. Update agentic-workflows-roadmap.md with findings"
 echo "  4. Decide: adopt, adapt, or reject this skill"
@@ -137,6 +192,8 @@ echo ""
 echo "## cc-godmode Evaluation (YYYY-MM-DD)"
 echo ""
 echo "- Status: [installed/tested/rejected]"
+echo "- Validation Score: [X.X/10]"
+echo "- Security Issues: [count/severity]"
 echo "- Patterns found: [list]"
 echo "- Use case fit: [good/partial/none]"
 echo "- Integration: [works with/needs adaptation/incompatible]"

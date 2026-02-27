@@ -16,10 +16,59 @@ The agentic workflows roadmap identified a gap in multi-agent coordination. The 
 - Test with a sample multi-agent workflow
 - Document findings in memory/openclaw-skills-research.md
 
-## Files Modified
-- `memory/openclaw-skills-research.md` — add evaluation section for cc-godmode
-- `memory/agentic-workflows-roadmap.md` — update Phase 2 with findings
-- `diary/YYYY-MM-DD.md` — daily reflection on evaluation
+## Skill Validation Report
+
+> **Note:** This section is populated after running `test.sh` post-installation.
+
+### Security Scan
+```bash
+skill-validate security ~/.openclaw/workspace/skills/cc-godmode --format json
+```
+
+| Severity | Count | Status |
+|----------|-------|--------|
+| Critical | TBD | ⏳ |
+| High | TBD | ⏳ |
+| Medium | TBD | ⏳ |
+| Low | TBD | ⏳ |
+
+**Security Issues:** To be determined after installation
+
+### Structure Validation
+```bash
+skill-validate validate ~/.openclaw/workspace/skills/cc-godmode --format json
+```
+
+| Test | Result |
+|------|--------|
+| SKILL.md exists | ⏳ |
+| YAML frontmatter valid | ⏳ |
+| Required fields present | ⏳ |
+| Scripts executable | ⏳ |
+| References directory | ⏳ |
+
+**Pass Rate:** TBD%
+
+### Performance Benchmark
+```bash
+skill-validate benchmark ~/.openclaw/workspace/skills/cc-godmode --format json
+```
+
+| Metric | Value |
+|--------|-------|
+| Load Time | TBD ms |
+| Metadata Extraction | TBD ms |
+| Script Execution | TBD ms |
+| Success Rate | TBD% |
+
+### Overall Score
+**TBD/10** (generated after installation)
+
+### Validation Summary
+- **Security:** Pending scan
+- **Structure:** Pending validation  
+- **Performance:** Pending benchmark
+- **Recommendation:** Pending full evaluation
 
 ## Testing
 1. **Installation Test**: Skill installs without errors
@@ -27,6 +76,7 @@ The agentic workflows roadmap identified a gap in multi-agent coordination. The 
 3. **Pattern Extraction**: Identify 3+ orchestration patterns
 4. **Integration Test**: Can it work with existing skills?
 5. **Use Case Fit**: Does it match our agent-delegate requirements?
+6. **Validation Report**: Full skill-validation-framework report
 
 ## Integration
 This evaluation feeds into the broader research on:
@@ -45,3 +95,4 @@ rm -rf ~/.openclaw/workspace/skills/cc-godmode
 - ClawHub: https://clawhub.com/skills/cc-godmode
 - Research: memory/agentic-workflows-roadmap.md Phase 2
 - Related: dispatching-parallel-agents skill (already installed)
+- Validation: skill-validation-framework (../skill-validation-framework/)
