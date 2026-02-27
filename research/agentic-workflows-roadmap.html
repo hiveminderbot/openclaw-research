@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>agentic-workflows-roadmap - OpenClaw Research</title>
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --text-color: #c9d1d9;
+            --link-color: #58a6ff;
+            --border-color: #30363d;
+            --header-bg: #161b22;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        a { color: var(--link-color); }
+        h1, h2, h3 { color: #f0f6fc; }
+        h1 { border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; }
+        h2 { border-bottom: 1px solid var(--border-color); padding-bottom: 0.3rem; margin-top: 2rem; }
+        code {
+            background: rgba(110, 118, 129, 0.4);
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-family: 'SFMono-Regular', Consolas, monospace;
+        }
+        pre {
+            background: var(--header-bg);
+            padding: 1rem;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+        pre code { background: none; padding: 0; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 0.5rem;
+            text-align: left;
+        }
+        th { background: var(--header-bg); }
+        blockquote {
+            border-left: 3px solid var(--border-color);
+            margin: 1rem 0;
+            padding-left: 1rem;
+            color: #8b949e;
+        }
+        .nav {
+            margin: 2rem 0;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .nav a {
+            margin-right: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <a href="../index.html">← Home</a>
+        <a href="../index.html#research-documents">All Research</a>
+    </div>
+<h1 id="agentic-workflows-roadmap">Agentic Workflows Roadmap</h1>
+<p><strong>Purpose:</strong> Actionable implementation plan for building meta-development skills and agentic workflows in OpenClaw.</p>
+<p><strong>Status:</strong> Phase 1 Complete — Research Updated with Feb 27 Findings</p>
+<hr />
+<h2 id="phase-1-foundation-complete">Phase 1: Foundation ✅ COMPLETE</h2>
+<ul class="task-list">
+<li><label><input type="checkbox" checked="" />Inventory existing skills — 52 built-in + 1 user-installed found</label></li>
+<li><label><input type="checkbox" checked="" />Study skill-creator skill — Documented structure, packaging, progressive disclosure</label></li>
+<li><label><input type="checkbox" checked="" />Study coding-agent skill — Delegation patterns with PTY support</label></li>
+<li><label><input type="checkbox" checked="" />Study clawhub skill — Distribution patterns (search/install/update/publish)</label></li>
+<li><label><input type="checkbox" checked="" />Study tmux skill — Process orchestration via isolated sockets</label></li>
+<li><label><input type="checkbox" checked="" />Document skill structure patterns — Anatomy, composition, triggering</label></li>
+<li><label><input type="checkbox" checked="" />Research external frameworks — LangChain, CrewAI, AutoGPT, OpenAI Swarm, AutoGen</label></li>
+<li><label><input type="checkbox" checked="" />Map gaps in current ecosystem — 7 gaps identified, 7 potential new skills listed</label></li>
+<li><label><input type="checkbox" checked="" /><strong>Feb 27: Research ClawHub ecosystem</strong> — 5,705 skills, new meta-development skills identified</label></li>
+</ul>
+<h2 id="phase-2-evaluation-prototype-current">Phase 2: Evaluation &amp; Prototype (Current)</h2>
+<p><strong>Goal:</strong> Evaluate existing skills and build first meta-development skill to validate patterns</p>
+<p><strong>Key Insight from Feb 27 Research:</strong> The ecosystem is rapidly maturing. Several skills now address previously identified gaps: - <code>cc-godmode</code> — Self-orchestrating multi-agent workflows - <code>agenticflow-skill</code> — AI workflow building guide - <code>claude-team</code> — Multi-agent coordination via MCP - <code>agent-protocol</code> — Agent-to-agent communication - <code>buildlog</code> — Session observability</p>
+<p><strong>Revised Strategy:</strong> Don’t build from scratch — study existing solutions first, then identify what’s missing.</p>
+<p><strong>Critical Finding:</strong> Snyk scan found 36% of 3,984 skills have potential security issues; 76 confirmed malicious. Review source before installing.</p>
+<p><strong>Immediate Actions (This Week):</strong> 1. <strong>Install and analyze <code>cc-godmode</code></strong> — Self-orchestrating multi-agent workflows 2. <strong>Install and analyze <code>agenticflow-skill</code></strong> — AI workflow building patterns 3. <strong>Install and analyze <code>claude-team</code></strong> — MCP-based multi-agent coordination</p>
+<p><strong>Validation Questions:</strong> - Do these skills solve our use cases? - What gaps remain after using them? - Can we compose them or do we need new skills? - Are they secure enough for our use case?</p>
+<h2 id="phase-3-build-or-compose">Phase 3: Build or Compose</h2>
+<ul class="task-list">
+<li><label><input type="checkbox" />Evaluate existing skills against requirements</label></li>
+<li><label><input type="checkbox" />Build custom skills only for proven gaps</label></li>
+<li><label><input type="checkbox" />Document usage patterns</label></li>
+<li><label><input type="checkbox" />Create example workflows</label></li>
+</ul>
+<h2 id="phase-4-integration">Phase 4: Integration</h2>
+<ul class="task-list">
+<li><label><input type="checkbox" />Test with real agentic software delivery scenarios</label></li>
+<li><label><input type="checkbox" />Iterate based on usage</label></li>
+<li><label><input type="checkbox" />Publish to ClawHub (if building new skills)</label></li>
+</ul>
+<hr />
+<h2 id="new-actionable-items-feb-27-2026">New Actionable Items (Feb 27, 2026)</h2>
+<h3 id="immediate-this-week">Immediate (This Week)</h3>
+<h4 id="install-clawhub-cli">1. Install ClawHub CLI</h4>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> i <span class="at">-g</span> clawhub</span></code></pre></div>
+<p><em>Needed for: Installing and analyzing new skills</em></p>
+<h4 id="install-and-analyze-cc-godmode">2. Install and Analyze <code>cc-godmode</code></h4>
+<p><strong>What to study:</strong> - How it handles self-orchestration - Multi-agent coordination patterns - What “godmode” means in practice</p>
+<p><strong>Key question:</strong> Does this replace our <code>agent-delegate</code> concept or complement it?</p>
+<p><strong>Install:</strong></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npx</span> clawhub@latest install cc-godmode</span></code></pre></div>
+<h4 id="install-and-analyze-agenticflow-skill">3. Install and Analyze <code>agenticflow-skill</code></h4>
+<p><strong>What to study:</strong> - Workflow building patterns - How it guides AI workflow creation - Integration with existing tools</p>
+<p><strong>Key question:</strong> Does this provide the workflow orchestration we need?</p>
+<p><strong>Install:</strong></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npx</span> clawhub@latest install agenticflow-skill</span></code></pre></div>
+<h4 id="install-and-analyze-claude-team">4. Install and Analyze <code>claude-team</code></h4>
+<p><strong>What to study:</strong> - MCP-based coordination pattern - How it integrates with iTerm2 - Multi-worker orchestration approach</p>
+<p><strong>Key question:</strong> Is MCP the right abstraction for our use case?</p>
+<p><strong>Install:</strong></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npx</span> clawhub@latest install claude-team</span></code></pre></div>
+<h3 id="short-term-next-2-weeks">Short-term (Next 2 Weeks)</h3>
+<h4 id="evaluate-mission-control-convex">5. Evaluate Mission Control / Convex</h4>
+<p><strong>What it is:</strong> Production multi-agent orchestration platform built on Convex</p>
+<p><strong>Key capabilities:</strong> - Shared database for agent state - Real-time agent communication - Web UI for monitoring</p>
+<p><strong>Key question:</strong> Do we need external infrastructure or can we stay pure OpenClaw?</p>
+<p><strong>Action:</strong> Read Mission Control guide, evaluate fit for our use case</p>
+<h4 id="prototype-quality-validation-skill-if-gap-confirmed">6. Prototype Quality Validation Skill (if gap confirmed)</h4>
+<p><strong>What it does:</strong> LLM-as-judge pattern for quality assurance</p>
+<p><strong>Use case:</strong> Code review, output validation, hallucination detection</p>
+<p><strong>Only build if:</strong> Existing skills don’t provide this capability</p>
+<h3 id="medium-term-next-month">Medium-term (Next Month)</h3>
+<h4 id="consider-mcp-bridge-skill">7. Consider MCP Bridge Skill</h4>
+<p><strong>What it does:</strong> Connect OpenClaw to MCP ecosystem (75+ connectors)</p>
+<p><strong>Benefits:</strong> - Standardized tool integration - Access to broader tool ecosystem - Future-proofing</p>
+<p><strong>Trade-off:</strong> Adds dependency on external protocol</p>
+<hr />
+<h2 id="updated-gap-analysis-feb-27-2026">Updated Gap Analysis (Feb 27, 2026)</h2>
+<h3 id="previously-identified-gaps-status">Previously Identified Gaps — Status</h3>
+<table>
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 37%" />
+<col style="width: 33%" />
+<col style="width: 17%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Gap</th>
+<th>Previous Status</th>
+<th>Feb 27 Update</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Workflow state machine</td>
+<td>❌ GAP</td>
+<td><strong>Addressed</strong> by <code>agenticflow-skill</code>, <code>cc-godmode</code></td>
+<td>Evaluate existing solutions</td>
+</tr>
+<tr class="even">
+<td>Vector/semantic memory</td>
+<td>❌ GAP</td>
+<td><strong>Partial</strong> — <code>agentic-ai-gold</code> has 5-layer memory</td>
+<td>Monitor, may not need immediately</td>
+</tr>
+<tr class="odd">
+<td>Multi-agent chat</td>
+<td>❌ GAP</td>
+<td><strong>Addressed</strong> by <code>claude-team</code>, <code>agent-council</code></td>
+<td>Evaluate <code>claude-team</code></td>
+</tr>
+<tr class="even">
+<td>Agent-to-agent messaging</td>
+<td>❌ GAP</td>
+<td><strong>Addressed</strong> by <code>agent-protocol</code>, <code>agent-task</code></td>
+<td>Evaluate <code>agent-protocol</code></td>
+</tr>
+<tr class="odd">
+<td>Task abstraction</td>
+<td>❌ GAP</td>
+<td><strong>Partial</strong> — <code>agent-task</code>, <code>workspace</code> emerging</td>
+<td>Evaluate <code>agent-task</code></td>
+</tr>
+<tr class="even">
+<td>Human-in-the-loop gates</td>
+<td>⚠️ PARTIAL</td>
+<td><strong>Partial</strong> — <code>arbiter</code> skill for async review</td>
+<td>May be sufficient</td>
+</tr>
+<tr class="odd">
+<td>Validation layers</td>
+<td>❌ GAP</td>
+<td><strong>Unchanged</strong> — No built-in quality checks</td>
+<td><strong>Potential build target</strong></td>
+</tr>
+<tr class="even">
+<td>Workflow tracing</td>
+<td>❌ GAP</td>
+<td><strong>Addressed</strong> by <code>buildlog</code>, <code>codex-monitor</code></td>
+<td>Evaluate <code>buildlog</code></td>
+</tr>
+<tr class="odd">
+<td>Agent training/feedback</td>
+<td>❌ GAP</td>
+<td><strong>Unchanged</strong> — No explicit training</td>
+<td><strong>Potential build target</strong></td>
+</tr>
+<tr class="even">
+<td>Standardized tool protocol</td>
+<td>❌ GAP</td>
+<td><strong>Unchanged</strong> — MCP emerging</td>
+<td>Consider MCP bridge</td>
+</tr>
+</tbody>
+</table>
+<h3 id="new-opportunities">New Opportunities</h3>
+<ol type="1">
+<li><strong>Integration with Mission Control/Convex</strong> — For production deployments</li>
+<li><strong>Quality validation skill</strong> — If existing solutions don’t meet needs</li>
+<li><strong>Agent training/feedback loop skill</strong> — Learn from corrections over time</li>
+<li><strong>MCP bridge skill</strong> — Connect to broader ecosystem</li>
+</ol>
+<h3 id="research-phase-complete">Research Phase: Complete ✅</h3>
+<p><strong>Status:</strong> Research phase concluded Feb 27, 2026. Sufficient information gathered to proceed with evaluation and prototyping.</p>
+<p><strong>What was accomplished:</strong> - Comprehensive inventory of 52+ built-in OpenClaw skills - Deep analysis of meta-development skills (skill-creator, coding-agent, clawhub, tmux) - External framework research: LangChain, CrewAI, AutoGPT, AutoGen, OpenAI Swarm, MCP, Google ADK, Vellum, AWCP - Gap analysis with comparison tables - Ecosystem scan: 5,705 ClawHub skills, security findings (36% issues), new meta-development skills identified - Actionable roadmap with prioritized skill candidates</p>
+<p><strong>Key findings:</strong> - OpenClaw’s simplicity is intentional — avoids “graph architecture debugging nightmare” - Progressive disclosure pattern is a core strength - Ecosystem matured rapidly (Feb 25-27) — many gaps now addressed - Security is a real concern — review before installing - Research is complete; evaluation and prototyping should begin</p>
+<hr />
+<h2 id="research-insights-applied">Research Insights Applied</h2>
+<h3 id="from-langchainlanggraph">From LangChain/LangGraph:</h3>
+<ul>
+<li>Orchestrator-worker pattern is well-established — our <code>agent-delegate</code> aligns</li>
+<li>StateGraph is powerful but adds complexity — avoid unless proven necessary</li>
+</ul>
+<h3 id="from-crewai">From CrewAI:</h3>
+<ul>
+<li>“Separate predictable from unpredictable” — deterministic flow + strategic agent deployment</li>
+<li>Trust gradient: start with human review, dial down as system proves itself</li>
+<li>Three-layer validation (LLM-as-judge, hallucination check, API scoring) — consider for quality-critical skills</li>
+</ul>
+<h3 id="from-feb-27-clawhub-research">From Feb 27 ClawHub Research:</h3>
+<ul>
+<li><strong>Ecosystem is maturing fast</strong> — Many gaps from Feb 26 are now addressed</li>
+<li><strong>Don’t build what you can install</strong> — Check ClawHub before building</li>
+<li><strong>Study before building</strong> — Existing skills may solve 80% of needs</li>
+<li><strong>Security matters</strong> — 36% of skills have issues; review source before installing</li>
+</ul>
+<hr />
+<h2 id="open-questions-updated-feb-27">Open Questions (Updated Feb 27)</h2>
+<ol type="1">
+<li><strong>Gap Reality Check:</strong> Do <code>cc-godmode</code>, <code>agenticflow-skill</code>, and <code>claude-team</code> solve our use cases?</li>
+<li><strong>Build vs. Buy:</strong> Which gaps require custom skills vs. composing existing ones?</li>
+<li><strong>External Infrastructure:</strong> Do we need Mission Control/Convex or can we stay pure OpenClaw?</li>
+<li><strong>MCP Integration:</strong> Should we adopt MCP as a standard or stay with native skills?</li>
+<li><strong>Validation Strategy:</strong> Do existing skills provide quality checks or do we need to build?</li>
+</ol>
+<hr />
+<h2 id="historical-phase-1-research-summary">Historical: Phase 1 Research Summary</h2>
+<p><strong>What was accomplished (Feb 25-26):</strong> - Comprehensive inventory of 52+ built-in OpenClaw skills - Deep analysis of meta-development skills (skill-creator, coding-agent, clawhub, tmux) - External framework research: LangChain, CrewAI, AutoGPT, AutoGen, OpenAI Swarm, MCP - Gap analysis with comparison table - Actionable roadmap with prioritized skill candidates</p>
+<p><strong>What we learned:</strong> - OpenClaw’s simplicity is intentional — avoids “graph architecture debugging nightmare” - Progressive disclosure pattern is a core strength - 7 gaps identified but many may be solvable with skill composition - Need to prototype to validate which gaps are real blockers</p>
+<p><strong>Feb 27 Update:</strong> - Ecosystem moved fast — many gaps now addressed by new skills - Strategy shift: Study existing solutions before building - Focus on evaluation and composition, not creation</p>
+<hr />
+<h2 id="next-steps-feb-27-2026">Next Steps (Feb 27, 2026)</h2>
+<ol type="1">
+<li><strong>Install ClawHub CLI</strong> — Enable skill installation</li>
+<li><strong>Install <code>cc-godmode</code>, <code>agenticflow-skill</code>, <code>claude-team</code></strong> — Study existing solutions</li>
+<li><strong>Evaluate against requirements</strong> — Do they meet our needs?</li>
+<li><strong>Identify remaining gaps</strong> — Only build what doesn’t exist</li>
+<li><strong>Decide on Mission Control</strong> — External infrastructure or pure OpenClaw?</li>
+</ol>
+<p><strong>Research Phase:</strong> Complete <strong>Evaluation Phase:</strong> Ready to begin</p>
+</body></html>

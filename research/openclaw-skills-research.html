@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>openclaw-skills-research - OpenClaw Research</title>
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --text-color: #c9d1d9;
+            --link-color: #58a6ff;
+            --border-color: #30363d;
+            --header-bg: #161b22;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        a { color: var(--link-color); }
+        h1, h2, h3 { color: #f0f6fc; }
+        h1 { border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; }
+        h2 { border-bottom: 1px solid var(--border-color); padding-bottom: 0.3rem; margin-top: 2rem; }
+        code {
+            background: rgba(110, 118, 129, 0.4);
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-family: 'SFMono-Regular', Consolas, monospace;
+        }
+        pre {
+            background: var(--header-bg);
+            padding: 1rem;
+            border-radius: 6px;
+            overflow-x: auto;
+        }
+        pre code { background: none; padding: 0; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 0.5rem;
+            text-align: left;
+        }
+        th { background: var(--header-bg); }
+        blockquote {
+            border-left: 3px solid var(--border-color);
+            margin: 1rem 0;
+            padding-left: 1rem;
+            color: #8b949e;
+        }
+        .nav {
+            margin: 2rem 0;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .nav a {
+            margin-right: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <a href="../index.html">← Home</a>
+        <a href="../index.html#research-documents">All Research</a>
+    </div>
+<h1 id="openclaw-skills-ecosystem-research">OpenClaw Skills Ecosystem Research</h1>
+<p><strong>Last Updated:</strong> February 27, 2026<br />
+<strong>Research Scope:</strong> OpenClaw native skills, ClawHub ecosystem, external framework patterns<br />
+<strong>Skills Analyzed:</strong> 5,705 community + 52 built-in + 2,868 curated</p>
+<hr />
+<h2 id="executive-summary">Executive Summary</h2>
+<p>This research documents a comprehensive analysis of the OpenClaw skills ecosystem conducted February 25-27, 2026. The ecosystem demonstrated rapid maturation during this period, with many previously identified gaps being addressed by new community skills.</p>
+<h3 id="key-statistics">Key Statistics</h3>
+<table>
+<thead>
+<tr class="header">
+<th>Metric</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Total Community Skills</td>
+<td>5,705</td>
+</tr>
+<tr class="even">
+<td>Curated Skills (VoltAgent)</td>
+<td>2,868</td>
+</tr>
+<tr class="odd">
+<td>Built-in OpenClaw Skills</td>
+<td>52</td>
+</tr>
+<tr class="even">
+<td>Skills with Security Issues</td>
+<td>36% (1,467 of 3,984 scanned)</td>
+</tr>
+<tr class="odd">
+<td>Confirmed Malicious</td>
+<td>76</td>
+</tr>
+<tr class="even">
+<td>Meta-Development Skills</td>
+<td>18+ identified</td>
+</tr>
+</tbody>
+</table>
+<h3 id="security-notice">Security Notice</h3>
+<blockquote>
+<p>⚠️ <strong>Critical Finding:</strong> Snyk scan found 36% of skills have potential security issues including prompt injection vulnerabilities. Always review source code before installing skills in production environments.</p>
+</blockquote>
+<hr />
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol type="1">
+<li><a href="#ecosystem-overview">Ecosystem Overview</a></li>
+<li><a href="#meta-development-skills">Meta-Development Skills</a></li>
+<li><a href="#built-in-skills-inventory">Built-in Skills Inventory</a></li>
+<li><a href="#external-framework-research">External Framework Research</a></li>
+<li><a href="#gap-analysis">Gap Analysis</a></li>
+<li><a href="#actionable-recommendations">Actionable Recommendations</a></li>
+</ol>
+<hr />
+<h2 id="ecosystem-overview">Ecosystem Overview</h2>
+<h3 id="clawhub-registry-structure">ClawHub Registry Structure</h3>
+<p>ClawHub serves as the central registry for OpenClaw skills with the following characteristics:</p>
+<ul>
+<li><strong>Installation</strong>: <code>npx clawhub@latest install &lt;skill-slug&gt;</code></li>
+<li><strong>Locations</strong> (priority order):
+<ol type="1">
+<li>Project workspace: <code>&lt;project&gt;/skills/</code></li>
+<li>Global: <code>~/.openclaw/skills/</code></li>
+<li>Bundled: Shipped with npm package</li>
+</ol></li>
+</ul>
+<h3 id="skill-categories">Skill Categories</h3>
+<table>
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 21%" />
+<col style="width: 48%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Category</th>
+<th>Count</th>
+<th>Notable Skills</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Agent-to-Agent Protocols</td>
+<td>18</td>
+<td>agent-protocol, agent-task, agent-council</td>
+</tr>
+<tr class="even">
+<td>Coding Agents &amp; IDEs</td>
+<td>133</td>
+<td>coding-agent, claude-team, cursor-agent</td>
+</tr>
+<tr class="odd">
+<td>Meta-Development</td>
+<td>18+</td>
+<td>cc-godmode, agenticflow-skill, buildlog</td>
+</tr>
+<tr class="even">
+<td>Browser Automation</td>
+<td>12</td>
+<td>browse, browser-automation, agent-browser</td>
+</tr>
+<tr class="odd">
+<td>Workflow &amp; Automation</td>
+<td>25+</td>
+<td>toggle, workspace, docker-sandbox</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="meta-development-skills">Meta-Development Skills</h2>
+<p>Skills that enable building other skills or orchestrating agent workflows.</p>
+<h3 id="high-priority">High Priority</h3>
+<h4 id="cc-godmode">cc-godmode</h4>
+<ul>
+<li><strong>Author:</strong> cubetribe</li>
+<li><strong>Version:</strong> 5.11.3</li>
+<li><strong>Description:</strong> Self-orchestrating multi-agent development workflows</li>
+<li><strong>Pattern:</strong> “You say WHAT, the AI decides HOW”</li>
+<li><strong>Subagents:</strong> 8 specialized agents (researcher, architect, api-guardian, builder, validator, tester, scribe, github-manager)</li>
+<li><strong>Key Insight:</strong> Implements Google’s 8 essential multi-agent patterns with deterministic workflows</li>
+</ul>
+<h4 id="agenticflow-skill">agenticflow-skill</h4>
+<ul>
+<li><strong>Description:</strong> Comprehensive guide for building AI workflows</li>
+<li><strong>Use Case:</strong> Workflow orchestration patterns</li>
+<li><strong>Status:</strong> Addresses workflow state machine gap</li>
+</ul>
+<h4 id="claude-team">claude-team</h4>
+<ul>
+<li><strong>Description:</strong> Orchestrate multiple Claude Code workers via iTerm2</li>
+<li><strong>Pattern:</strong> MCP-based multi-agent coordination</li>
+<li><strong>Key Insight:</strong> Uses Model Context Protocol for agent communication</li>
+</ul>
+<h3 id="medium-priority">Medium Priority</h3>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 25%" />
+<col style="width: 54%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Skill</th>
+<th>Purpose</th>
+<th>Meta-Dev Relevance</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>buildlog</td>
+<td>Record/replay AI coding sessions</td>
+<td>Session observability</td>
+</tr>
+<tr class="even">
+<td>agent-protocol</td>
+<td>Agent-to-agent communication</td>
+<td>Inter-agent messaging</td>
+</tr>
+<tr class="odd">
+<td>agent-task</td>
+<td>Task delegation between agents</td>
+<td>Task distribution</td>
+</tr>
+<tr class="even">
+<td>agent-council</td>
+<td>Autonomous AI agent toolkit</td>
+<td>Multi-agent governance</td>
+</tr>
+<tr class="odd">
+<td>arbiter</td>
+<td>Async human review</td>
+<td>Human-in-the-loop</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="built-in-skills-inventory">Built-in Skills Inventory</h2>
+<h3 id="core-meta-development-skills">Core Meta-Development Skills</h3>
+<table>
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 22%" />
+<col style="width: 20%" />
+<col style="width: 40%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Skill</th>
+<th>Location</th>
+<th>Purpose</th>
+<th>Key Capabilities</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>skill-creator</td>
+<td><code>/usr/lib/node_modules/openclaw/skills/skill-creator/</code></td>
+<td>Create/package skills</td>
+<td>init, validate, package</td>
+</tr>
+<tr class="even">
+<td>coding-agent</td>
+<td><code>/usr/lib/node_modules/openclaw/skills/coding-agent/</code></td>
+<td>Spawn coding agents</td>
+<td>Codex, Claude, OpenCode, Pi</td>
+</tr>
+<tr class="odd">
+<td>clawhub</td>
+<td><code>/usr/lib/node_modules/openclaw/skills/clawhub/</code></td>
+<td>Skill registry</td>
+<td>search, install, update, publish</td>
+</tr>
+<tr class="even">
+<td>tmux</td>
+<td><code>/usr/lib/node_modules/openclaw/skills/tmux/</code></td>
+<td>Process orchestration</td>
+<td>Isolated sockets, parallel agents</td>
+</tr>
+</tbody>
+</table>
+<h3 id="skill-structure-pattern">Skill Structure Pattern</h3>
+<p>Every skill follows this anatomy:</p>
+<pre><code>skill-name/
+├── SKILL.md              # Required: YAML frontmatter + instructions
+├── scripts/              # Optional: Executable code
+├── references/           # Optional: On-demand documentation
+└── assets/               # Optional: Templates, boilerplate</code></pre>
+<p><strong>Progressive Disclosure:</strong> - Metadata: Always loaded - Body: Loaded when skill triggered - References: Loaded only when explicitly needed</p>
+<hr />
+<h2 id="external-framework-research">External Framework Research</h2>
+<h3 id="googles-eight-essential-patterns-adk">Google’s Eight Essential Patterns (ADK)</h3>
+<p>From Google Agent Development Kit (January 2026):</p>
+<table>
+<thead>
+<tr class="header">
+<th>Pattern</th>
+<th>Description</th>
+<th>OpenClaw Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Sequential Pipeline</td>
+<td>Assembly line of agents</td>
+<td>✅ Native</td>
+</tr>
+<tr class="even">
+<td>Coordinator/Dispatcher</td>
+<td>Central routing agent</td>
+<td>⚠️ Partial</td>
+</tr>
+<tr class="odd">
+<td>Parallel Fan-Out/Gather</td>
+<td>Simultaneous subtasks</td>
+<td>⚠️ Partial</td>
+</tr>
+<tr class="even">
+<td>Hierarchical Decomposition</td>
+<td>Goal breakdown</td>
+<td>⚠️ Partial</td>
+</tr>
+<tr class="odd">
+<td>Generator and Critic</td>
+<td>Two-phase validation</td>
+<td>❌ Gap</td>
+</tr>
+<tr class="even">
+<td>Iterative Refinement</td>
+<td>Feedback loops</td>
+<td>❌ Gap</td>
+</tr>
+<tr class="odd">
+<td>Human-in-the-Loop</td>
+<td>Approval gates</td>
+<td>⚠️ Partial</td>
+</tr>
+<tr class="even">
+<td>Composite</td>
+<td>Pattern combinations</td>
+<td>⚠️ Partial</td>
+</tr>
+</tbody>
+</table>
+<h3 id="crewai-enterprise-insights">CrewAI Enterprise Insights</h3>
+<p>From analysis of 1.7 billion workflows:</p>
+<p><strong>Winning Pattern:</strong></p>
+<pre><code>Deterministic Backbone (Flows) + Intelligence Where It Matters (Agents)</code></pre>
+<p><strong>Critical Lesson:</strong> &gt; “Teams regret graph-based architectures that look great in screenshots but become debugging nightmares.”</p>
+<p>OpenClaw’s flat skill system avoids this trap by design.</p>
+<h3 id="vellums-three-levels">Vellum’s Three Levels</h3>
+<table>
+<thead>
+<tr class="header">
+<th>Level</th>
+<th>Decisions</th>
+<th>OpenClaw Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1. AI Workflows</td>
+<td>Output decisions</td>
+<td>✅ Native</td>
+</tr>
+<tr class="even">
+<td>2. Router Workflows</td>
+<td>Task decisions</td>
+<td>⚠️ Partial</td>
+</tr>
+<tr class="odd">
+<td>3. Autonomous Agents</td>
+<td>Process decisions</td>
+<td>❌ Gap</td>
+</tr>
+</tbody>
+</table>
+<h3 id="awcp-workspace-delegation-protocol">AWCP: Workspace Delegation Protocol</h3>
+<p><strong>Core Innovation:</strong> Files-as-interface paradigm - Delegator projects workspace to Executor - Executor operates directly on original files - Native toolchain integration</p>
+<p><strong>OpenClaw Alignment:</strong> - Workspace-centric design matches philosophy - Gap: No formal cross-agent workspace sharing protocol</p>
+<hr />
+<h2 id="gap-analysis">Gap Analysis</h2>
+<h3 id="resolved-gaps-feb-25-27-2026">Resolved Gaps (Feb 25-27, 2026)</h3>
+<table>
+<thead>
+<tr class="header">
+<th>Gap</th>
+<th>Previous Status</th>
+<th>Solution</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Workflow state machine</td>
+<td>❌ Gap</td>
+<td><code>agenticflow-skill</code>, <code>cc-godmode</code></td>
+</tr>
+<tr class="even">
+<td>Multi-agent chat</td>
+<td>❌ Gap</td>
+<td><code>claude-team</code>, <code>agent-council</code></td>
+</tr>
+<tr class="odd">
+<td>Agent-to-agent messaging</td>
+<td>❌ Gap</td>
+<td><code>agent-protocol</code>, <code>agent-task</code></td>
+</tr>
+<tr class="even">
+<td>Workflow tracing</td>
+<td>❌ Gap</td>
+<td><code>buildlog</code>, <code>codex-monitor</code></td>
+</tr>
+<tr class="odd">
+<td>Session observability</td>
+<td>❌ Gap</td>
+<td><code>buildlog</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="persistent-gaps">Persistent Gaps</h3>
+<table>
+<thead>
+<tr class="header">
+<th>Gap</th>
+<th>Impact</th>
+<th>Potential Solution</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Validation layers</strong></td>
+<td>High</td>
+<td>LLM-as-judge skill</td>
+</tr>
+<tr class="even">
+<td><strong>Generator/Critic pattern</strong></td>
+<td>High</td>
+<td>Two-phase validation skill</td>
+</tr>
+<tr class="odd">
+<td><strong>Iterative refinement</strong></td>
+<td>Medium</td>
+<td>Feedback loop skill</td>
+</tr>
+<tr class="even">
+<td><strong>Agent training/feedback</strong></td>
+<td>Medium</td>
+<td>Learning loop skill</td>
+</tr>
+<tr class="odd">
+<td><strong>Deterministic workflow backbone</strong></td>
+<td>High</td>
+<td>State machine skill</td>
+</tr>
+</tbody>
+</table>
+<h3 id="openclaw-strengths">OpenClaw Strengths</h3>
+<ol type="1">
+<li><strong>Skill-Based Simplicity</strong> — Flat, explicit, debuggable</li>
+<li><strong>Progressive Disclosure</strong> — Efficient resource loading</li>
+<li><strong>Built-in Tooling</strong> — 52+ skills out of box</li>
+<li><strong>Session Isolation</strong> — Clean agent separation</li>
+<li><strong>Channel Agnostic</strong> — Universal messaging</li>
+<li><strong>Markdown-Native</strong> — Human-readable, version-controllable</li>
+</ol>
+<hr />
+<h2 id="actionable-recommendations">Actionable Recommendations</h2>
+<h3 id="immediate-this-week">Immediate (This Week)</h3>
+<ol type="1">
+<li><p><strong>Install ClawHub CLI</strong></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> i <span class="at">-g</span> clawhub</span></code></pre></div></li>
+<li><p><strong>Evaluate cc-godmode</strong></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npx</span> clawhub@latest install cc-godmode</span></code></pre></div>
+<ul>
+<li>Study self-orchestration patterns</li>
+<li>Assess against agent-delegate concept</li>
+</ul></li>
+<li><p><strong>Evaluate agenticflow-skill</strong></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npx</span> clawhub@latest install agenticflow-skill</span></code></pre></div>
+<ul>
+<li>Extract workflow patterns</li>
+<li>Compare to workflow-orchestrator concept</li>
+</ul></li>
+</ol>
+<h3 id="short-term-next-2-weeks">Short-term (Next 2 Weeks)</h3>
+<ol start="4" type="1">
+<li><p><strong>Evaluate claude-team</strong></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npx</span> clawhub@latest install claude-team</span></code></pre></div>
+<ul>
+<li>Understand MCP-based coordination</li>
+<li>Compare to sessions_spawn approach</li>
+</ul></li>
+<li><p><strong>Assess Mission Control/Convex</strong></p>
+<ul>
+<li>Evaluate for production multi-agent needs</li>
+<li>Decide: external infrastructure vs. pure OpenClaw</li>
+</ul></li>
+</ol>
+<h3 id="medium-term-next-month">Medium-term (Next Month)</h3>
+<ol start="6" type="1">
+<li><strong>Prototype validation skill</strong> (if gap confirmed)
+<ul>
+<li>LLM-as-judge pattern</li>
+<li>Three-layer validation (CrewAI-inspired)</li>
+</ul></li>
+<li><strong>Consider MCP bridge</strong>
+<ul>
+<li>Access to 75+ connectors</li>
+<li>Standardize tool integration</li>
+</ul></li>
+</ol>
+<hr />
+<h2 id="research-methodology">Research Methodology</h2>
+<h3 id="sources">Sources</h3>
+<ul>
+<li>VoltAgent/awesome-openclaw-skills (2,868 curated)</li>
+<li>ClawHub registry (5,705 total)</li>
+<li>DigitalOcean OpenClaw guide</li>
+<li>Convex integration docs</li>
+<li>Snyk security research</li>
+<li>Framework docs: LangChain, CrewAI, AutoGPT, AutoGen, OpenAI Swarm, MCP, Google ADK, Vellum, AWCP</li>
+</ul>
+<h3 id="limitations">Limitations</h3>
+<ul>
+<li>Cannot directly browse ClawHub without CLI</li>
+<li>Skill descriptions may not reflect full capabilities</li>
+<li>Security audits are point-in-time</li>
+</ul>
+<hr />
+<h2 id="conclusion">Conclusion</h2>
+<p>The OpenClaw skills ecosystem has matured rapidly, with many gaps from February 25 now addressed by community skills. The research phase is complete; evaluation and prototyping should begin.</p>
+<p><strong>Key Takeaway:</strong> Don’t build from scratch — study existing solutions first, then identify what’s truly missing.</p>
+<p><strong>Next Phase:</strong> Install and analyze <code>cc-godmode</code>, <code>agenticflow-skill</code>, and <code>claude-team</code> to determine if remaining gaps require custom development.</p>
+</body></html>
