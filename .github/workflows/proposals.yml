@@ -51,10 +51,10 @@ jobs:
             # For PR: compare against base branch
             git fetch origin ${{ github.base_ref }} --depth=1
             BASE="origin/${{ github.base_ref }}"
-            CHANGED=$(git diff --name-only "$BASE...HEAD" | grep '^proposals/' | grep -v '^proposals/_template' | grep -v '^proposals/README.md' | grep -v '^proposals/CONVENTIONS.md' | cut -d'/' -f2 | sort -u | jq -R . | jq -s .)
+            CHANGED=$(git diff --name-only "$BASE...HEAD" | grep '^proposals/' | grep -v '^proposals/_template' | grep -v '^proposals/README.md' | grep -v '^proposals/CONVENTIONS.md' | cut -d'/' -f2 | sort -u | jq -R . | jq -s -c .)
           else
             # For push: check files in the last commit
-            CHANGED=$(git diff --name-only HEAD~1 HEAD | grep '^proposals/' | grep -v '^proposals/_template' | grep -v '^proposals/README.md' | grep -v '^proposals/CONVENTIONS.md' | cut -d'/' -f2 | sort -u | jq -R . | jq -s .)
+            CHANGED=$(git diff --name-only HEAD~1 HEAD | grep '^proposals/' | grep -v '^proposals/_template' | grep -v '^proposals/README.md' | grep -v '^proposals/CONVENTIONS.md' | cut -d'/' -f2 | sort -u | jq -R . | jq -s -c .)
           fi
           
           # Handle empty result
