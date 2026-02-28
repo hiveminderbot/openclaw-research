@@ -4,10 +4,12 @@ on:
   pull_request:
     paths:
       - 'proposals/**'
+      - '.github/workflows/proposals.yml'
   push:
     branches: [main]
     paths:
       - 'proposals/**'
+      - '.github/workflows/proposals.yml'
 
 jobs:
   validate-proposals:
@@ -20,7 +22,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Full history for proper diff
+          fetch-depth: 0
       
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -48,22 +50,42 @@ jobs:
         id: changed
         run: |
           if [ "${{ github.event_name }}" = "pull_request" ]; then
-            # Get changed files in PR
+            # For PR: compare against base branch
             git fetch origin ${{ github.base_ref }} --depth=1
-            CHANGED=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep '^proposals/' | grep -v '^proposals/_template' | cut -d'/' -f2 | sort -u | jq -R . | jq -s .)
+            BASE="origin/${{ github.base_ref }}"
+            CHANGED=$(git diff --name-only "$BASE...HEAD" | grep '^proposals/' | grep -v '^proposals/_template' | grep -v '^proposals/README.md' | grep -v '^proposals/CONVENTIONS.md' | cut -d'/' -f2 | sort -u | jq -R . | jq -s -c .)
           else
-            # On push, check last commit
-            CHANGED=$(git diff --name-only HEAD~1 HEAD | grep '^proposals/' | grep -v '^proposals/_template' | cut -d'/' -f2 | sort -u | jq -R . | jq -s .)
+            # For push: check files in the last commit
+            CHANGED=$(git diff --name-only HEAD~1 HEAD | grep '^proposals/' | grep -v '^proposals/_template' | grep -v '^proposals/README.md' | grep -v '^proposals/CONVENTIONS.md' | cut -d'/' -f2 | sort -u | jq -R . | jq -s -c .)
           fi
+          
+          # Handle empty result
+          if [ "$CHANGED" = "[]" ] || [ -z "$CHANGED" ]; then
+            CHANGED="[]"
+            echo "No proposal changes detected"
+          fi
+          
           echo "proposals=$CHANGED" >> $GITHUB_OUTPUT
           echo "Changed proposals: $CHANGED"
       
       - name: Validate proposal structure
         run: |
-          echo '${{ steps.changed.outputs.proposals }}' | jq -r '.[]' | while read proposal; do
+          CHANGED='${{ steps.changed.outputs.proposals }}'
+          
+          if [ "$CHANGED" = "[]" ]; then
+            echo "No proposals to validate"
+            exit 0
+          fi
+          
+          echo "$CHANGED" | jq -r '.[]' | while read proposal; do
             echo "Validating: $proposal"
             
             PROPOSAL_DIR="proposals/$proposal"
+            
+            if [ ! -d "$PROPOSAL_DIR" ]; then
+              echo "❌ Proposal directory not found: $PROPOSAL_DIR"
+              exit 1
+            fi
             
             # Check required files exist
             for file in README.md install.sh test.sh; do
@@ -94,7 +116,14 @@ jobs:
       
       - name: Run proposal tests (dry-run)
         run: |
-          echo '${{ steps.changed.outputs.proposals }}' | jq -r '.[]' | while read proposal; do
+          CHANGED='${{ steps.changed.outputs.proposals }}'
+          
+          if [ "$CHANGED" = "[]" ]; then
+            echo "No proposals to test"
+            exit 0
+          fi
+          
+          echo "$CHANGED" | jq -r '.[]' | while read proposal; do
             echo ""
             echo "Testing: $proposal"
             echo "================================"
@@ -114,26 +143,32 @@ jobs:
             echo "Running test.sh..."
             cd "$PROPOSAL_DIR" && ./test.sh || echo "⚠️  Tests failed (expected in CI without full env)"
             
-            cd ../..
+            cd "$GITHUB_WORKSPACE"
           done
       
       - name: Generate validation summary
         run: |
+          CHANGED='${{ steps.changed.outputs.proposals }}'
+          
           echo "## Proposal Validation Report" > validation-summary.md
           echo "" >> validation-summary.md
           echo "| Proposal | Structure | Validation Report |" >> validation-summary.md
           echo "|----------|-----------|-------------------|" >> validation-summary.md
           
-          echo '${{ steps.changed.outputs.proposals }}' | jq -r '.[]' | while read proposal; do
-            # Check if validation report section exists
-            if grep -q "Skill Validation Report" "proposals/$proposal/README.md"; then
-              VALIDATION="✅ Present"
-            else
-              VALIDATION="❌ Missing"
-            fi
-            
-            echo "| $proposal | ✅ Valid | $VALIDATION |" >> validation-summary.md
-          done
+          if [ "$CHANGED" != "[]" ]; then
+            echo "$CHANGED" | jq -r '.[]' | while read proposal; do
+              # Check if validation report section exists
+              if grep -q "Skill Validation Report" "proposals/$proposal/README.md"; then
+                VALIDATION="✅ Present"
+              else
+                VALIDATION="❌ Missing"
+              fi
+              
+              echo "| $proposal | ✅ Valid | $VALIDATION |" >> validation-summary.md
+            done
+          else
+            echo "| (none) | - | - |" >> validation-summary.md
+          fi
           
           cat validation-summary.md
       
