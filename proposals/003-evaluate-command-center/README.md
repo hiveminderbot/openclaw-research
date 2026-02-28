@@ -78,7 +78,46 @@ skill-validate validate ~/.openclaw/workspace/skills/openclaw-command-center --f
 rm -rf ~/.openclaw/workspace/skills/openclaw-command-center
 ```
 
+## Social Validation
+
+### GitHub Metrics ⭐
+- **Repository:** https://github.com/jontsai/openclaw-command-center
+- **Stars:** 79 ⭐ (strong community interest)
+- **Forks:** 19 (active adoption)
+- **Open Issues:** 6 (manageable, responsive maintainer)
+- **Last Updated:** 2026-02-28 (actively maintained)
+- **License:** Open source
+
+### Community Context
+- **Blog Coverage:** Featured on [jontsai.com/blog](https://www.jontsai.com/blog/)
+- **Documentation:** Comprehensive README with screenshots
+- **Alternatives:**
+  - [openclaw-dashboard](https://github.com/tugcantopaloglu/openclaw-dashboard) — Alternative dashboard (beautiful UI)
+  - [openclaw-command-center](https://termo.ai/skills/command-center) — Listed on Termo AI skills directory
+
+### Feature Comparison
+| Feature | Command Center | Alternative Dashboard |
+|---------|---------------|----------------------|
+| Real-time updates | ✅ SSE streaming | ✅ |
+| Cost tracking | ✅ | ✅ |
+| Session monitoring | ✅ | ✅ |
+| Mobile responsive | ✅ | ✅ |
+| Zero dependencies | ✅ | ❌ |
+| Size | ~200KB | Larger |
+
+### Risk Assessment
+| Factor | Assessment |
+|--------|------------|
+| Social Proof | **High** (79 stars, active forks) |
+| Maintenance | **Active** (updated today) |
+| Documentation | **Excellent** (screenshots, API docs) |
+| Security | **Strong** (multiple auth modes, local-only) |
+
 ## References
-- ClawHub: openclaw-command-center (owner: jontsai)
-- Related: SELF_DIRECTION.md (monitoring needs)
-- Research: memory/agentic-workflows-roadmap.md
+- **GitHub:** https://github.com/jontsai/openclaw-command-center
+- **ClawHub:** openclaw-command-center (owner: jontsai)
+- **Blog:** https://www.jontsai.com/blog/
+- **Directory:** https://termo.ai/skills/command-center
+- **Alternatives:** [openclaw-dashboard](https://github.com/tugcantopaloglu/openclaw-dashboard)
+- **Related:** SELF_DIRECTION.md (monitoring needs)
+- **Research:** memory/agentic-workflows-roadmap.md
