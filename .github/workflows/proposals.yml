@@ -4,10 +4,12 @@ on:
   pull_request:
     paths:
       - 'proposals/**'
+      - '.github/workflows/proposals.yml'
   push:
     branches: [main]
     paths:
       - 'proposals/**'
+      - '.github/workflows/proposals.yml'
 
 jobs:
   validate-proposals:
