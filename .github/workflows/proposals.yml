@@ -13,9 +13,14 @@ jobs:
   validate-proposals:
     name: Validate Proposals
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
     
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for proper diff
       
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -45,23 +50,18 @@ jobs:
           if [ "${{ github.event_name }}" = "pull_request" ]; then
             # Get changed files in PR
             git fetch origin ${{ github.base_ref }} --depth=1
-            CHANGED=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep '^proposals/' | cut -d'/' -f2 | sort -u | jq -R . | jq -s .)
+            CHANGED=$(git diff --name-only origin/${{ github.base_ref }}...HEAD | grep '^proposals/' | grep -v '^proposals/_template' | cut -d'/' -f2 | sort -u | jq -R . | jq -s .)
           else
             # On push, check last commit
-            CHANGED=$(git diff --name-only HEAD~1 HEAD | grep '^proposals/' | cut -d'/' -f2 | sort -u | jq -R . | jq -s .)
+            CHANGED=$(git diff --name-only HEAD~1 HEAD | grep '^proposals/' | grep -v '^proposals/_template' | cut -d'/' -f2 | sort -u | jq -R . | jq -s .)
           fi
           echo "proposals=$CHANGED" >> $GITHUB_OUTPUT
           echo "Changed proposals: $CHANGED"
       
       - name: Validate proposal structure
         run: |
-          echo "${{ steps.changed.outputs.proposals }}" | jq -r '.[]' | while read proposal; do
+          echo '${{ steps.changed.outputs.proposals }}' | jq -r '.[]' | while read proposal; do
             echo "Validating: $proposal"
-            
-            # Skip template
-            if [ "$proposal" = "_template" ]; then
-              continue
-            fi
             
             PROPOSAL_DIR="proposals/$proposal"
             
@@ -94,11 +94,7 @@ jobs:
       
       - name: Run proposal tests (dry-run)
         run: |
-          echo "${{ steps.changed.outputs.proposals }}" | jq -r '.[]' | while read proposal; do
-            if [ "$proposal" = "_template" ]; then
-              continue
-            fi
-            
+          echo '${{ steps.changed.outputs.proposals }}' | jq -r '.[]' | while read proposal; do
             echo ""
             echo "Testing: $proposal"
             echo "================================"
@@ -122,18 +118,13 @@ jobs:
           done
       
       - name: Generate validation summary
-        if: github.event_name == 'pull_request'
         run: |
           echo "## Proposal Validation Report" > validation-summary.md
           echo "" >> validation-summary.md
           echo "| Proposal | Structure | Validation Report |" >> validation-summary.md
           echo "|----------|-----------|-------------------|" >> validation-summary.md
           
-          echo "${{ steps.changed.outputs.proposals }}" | jq -r '.[]' | while read proposal; do
-            if [ "$proposal" = "_template" ]; then
-              continue
-            fi
-            
+          echo '${{ steps.changed.outputs.proposals }}' | jq -r '.[]' | while read proposal; do
             # Check if validation report section exists
             if grep -q "Skill Validation Report" "proposals/$proposal/README.md"; then
               VALIDATION="✅ Present"
