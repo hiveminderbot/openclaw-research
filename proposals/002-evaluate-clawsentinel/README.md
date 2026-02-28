@@ -83,7 +83,31 @@ clawsentinel scan ~/.openclaw/workspace/skills/
 rm -rf ~/.openclaw/workspace/skills/clawsentinel
 ```
 
+## Social Validation
+
+### GitHub Metrics
+- **Repository:** Not found on GitHub (ClawHub-only distribution)
+- **ClawHub:** Published by chuddyrudd
+- **Last Updated:** 2026-02-28 (actively maintained)
+- **Version:** 2.3.2 (rapid iteration)
+
+### Community Context
+- **Security Focus:** Addresses recent ClawHavoc malware concerns in ClawHub ecosystem
+- **Complementary Tools:** 
+  - [Sclawhub](https://github.com/mladjan/Sclawhub) — Alternative security scanner (Semgrep-based)
+  - [skill-security-scan](https://github.com/huifer/skill-security-scan) — Claude Skills security scanner
+- **Unique Value:** Pure local scanning (no external calls), 100% read-only analysis
+
+### Risk Assessment
+| Factor | Assessment |
+|--------|------------|
+| Social Proof | Low (new skill, no GitHub) |
+| Relevance | High (active security concerns) |
+| Maintenance | Active (updated today) |
+| Alternatives | Available (Sclawhub, etc.) |
+
 ## References
 - ClawHub: clawsentinel (owner: chuddyrudd)
 - Related: skill-validation-framework (our existing validator)
+- Alternatives: [Sclawhub](https://github.com/mladjan/Sclawhub), [skill-security-scan](https://github.com/huifer/skill-security-scan)
 - Research: memory/agentic-workflows-roadmap.md
