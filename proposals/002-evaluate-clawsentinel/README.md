@@ -19,132 +19,64 @@ The cc-godmode evaluation revealed a VirusTotal false positive — having a dedi
 
 ## Skill Validation Report
 
-### Security Scan (SVF)
+> **Note:** To be populated after installation via `test.sh`
+
+### Security Scan
 ```bash
-skill-validate security ~/.openclaw/workspace/skills/clawsentinel --format text
+skill-validate security ~/.openclaw/workspace/skills/clawsentinel --format json
 ```
 
 | Severity | Count | Status |
 |----------|-------|--------|
-| Critical | 0 | ✅ |
-| High | 0 | ✅ |
-| Medium | 0 | ✅ |
-| Low | 0 | ✅ |
+| Critical | TBD | ⏳ |
+| High | TBD | ⏳ |
+| Medium | TBD | ⏳ |
+| Low | TBD | ⏳ |
 
-**Result:** No security issues found.
-
-### Structure Validation (SVF)
+### Structure Validation
 ```bash
-skill-validate validate ~/.openclaw/workspace/skills/clawsentinel --format text
+skill-validate validate ~/.openclaw/workspace/skills/clawsentinel --format json
 ```
 
 | Test | Result |
 |------|--------|
-| SKILL.md exists | ✅ |
-| YAML frontmatter valid | ✅ |
-| Required fields present | ✅ |
-| Description quality | ⚠️ (lacks triggering guidance) |
+| SKILL.md exists | ⏳ |
+| YAML frontmatter valid | ⏳ |
+| Required fields present | ⏳ |
 
-**Pass Rate:** 83.3%
+**Pass Rate:** TBD%
 
-### ClawSentinel Security Audit (Manual)
-Using ClawSentinel v3.0 patterns, audited all 5 installed skills:
+### ClawSentinel Capabilities Test
+```bash
+# Scan all installed skills
+clawsentinel scan ~/.openclaw/workspace/skills/
+```
 
-| Skill | Safety Score | Risk Level |
-|-------|--------------|------------|
-| self-improving-agent | 99/100 | ✅ LOW |
-| agent-team-orchestration | 100/100 | ✅ LOW |
-| dispatching-parallel-agents | 100/100 | ✅ LOW |
-| cc-godmode | 98/100 | ✅ LOW |
-| clawsentinel | 95/100 | ✅ LOW |
-
-**Key Findings:**
-- All skills are documentation-only (no executable code)
-- No ClawHavoc malware signatures detected
-- No MCP backdoor patterns detected
-- No supply-chain attack indicators
-- One minor issue: clawsentinel description lacks triggering guidance
-
-### Comparison: SVF vs. ClawSentinel
-
-| Aspect | Skill Validation Framework | ClawSentinel |
-|--------|---------------------------|--------------|
-| **Type** | Python CLI tool | Documentation skill |
-| **Execution** | Standalone binary | AI-guided analysis |
-| **Focus** | Structure validation, basic security | Malware detection, attestation |
-| **Output** | JSON/SARIF/text | Markdown reports |
-| **Automation** | CI/CD integrable | Manual or AI-triggered |
-| **Strength** | Deterministic, fast | Comprehensive patterns, reasoning |
-
-**Verdict:** Complementary tools. SVF for automated gates, ClawSentinel for deep analysis.
+**Expected Detections:**
+- ClawHavoc malware signatures
+- MCP backdoor patterns
+- Obfuscated JavaScript/Python
+- Supply-chain indicators
 
 ### Overall Score
-**9/10** — Excellent security auditing capability. Documentation-only skills are inherently safe. ClawSentinel provides comprehensive patterns for detecting sophisticated threats.
+**TBD/10**
 
-**Recommendation:** ✅ **APPROVED for integration**
-
-## Testing Results
-
-| Test | Status | Notes |
-|------|--------|-------|
-| 1. Installation | ✅ PASS | Installed via `clawhub install clawsentinel` |
-| 2. Self-Scan | ✅ PASS | No security issues found |
-| 3. Installed Skills Audit | ✅ PASS | All 5 skills scanned, 98/100 avg score |
-| 4. False Positive Check | ✅ PASS | Known-good skills correctly identified as safe |
-| 5. Integration | ⏳ PENDING | Awaiting CI workflow update |
-
-### Detailed Test Log
-
-**Installation:**
-```bash
-$ clawhub install clawsentinel
-✔ OK. Installed clawsentinel -> /root/.openclaw/workspace/skills/clawsentinel
-```
-
-**Skill Validation Framework Scan:**
-```bash
-$ skill-validate security clawsentinel
-✓ No security issues found
-
-$ skill-validate validate clawsentinel
-Pass rate: 83.3% (5/6 tests)
-- Description quality: needs triggering guidance
-```
-
-**ClawSentinel Security Audit:**
-- Audited all 5 installed skills using ClawSentinel v3.0 patterns
-- Generated comprehensive report: `clawsentinel-audit-report.md`
-- All skills documentation-only, no executable code
-- No malware, backdoors, or supply-chain indicators detected
+## Testing
+1. **Installation Test** — Installs without errors
+2. **Self-Scan** — clawsentinel can scan itself
+3. **Installed Skills Audit** — Scan all current skills:
+   - self-improving-agent
+   - agent-team-orchestration
+   - dispatching-parallel-agents
+   - cc-godmode
+4. **False Positive Check** — Compare with known-good skills
+5. **Integration Test** — Add to proposal CI workflow
 
 ## Integration
-
-**Recommended Implementation:**
-
-1. **Security Gate in Proposal Workflow**
-   ```yaml
-   # Add to .github/workflows/proposals.yml
-   - name: Security Audit (ClawSentinel)
-     run: |
-       # Run ClawSentinel patterns on changed proposals
-       # (AI-guided analysis via skill documentation)
-   ```
-
-2. **Pre-Install Hook**
-   - Run ClawSentinel audit before installing new skills
-   - Block installation if safety score < 80/100
-
-3. **Weekly Scheduled Audit**
-   ```bash
-   # Cron job: openclaw cron add
-   # Run weekly audit of all installed skills
-   ```
-
-4. **Complementary Usage**
-   - **SVF:** Automated CI gates (fast, deterministic)
-   - **ClawSentinel:** Deep security analysis (comprehensive, reasoning-based)
-
-**Note:** ClawSentinel is a documentation skill — it works by me reading the SKILL.md and applying the security patterns. No standalone executable.
+- Add as **security gate** in proposal workflow
+- Run on all new skill installations
+- Weekly scheduled audit of installed skills
+- Complements (not replaces) skill-validation-framework
 
 ## Rollback
 ```bash
