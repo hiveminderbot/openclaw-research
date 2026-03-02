@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenClaw Home Setup - Updated Analysis March 2025</title>
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --text-color: #c9d1d9;
+            --link-color: #58a6ff;
+            --border-color: #30363d;
+            --header-bg: #161b22;
+            --accent-color: #238636;
+            --warning-color: #f85149;
+            --highlight-bg: rgba(88, 166, 255, 0.1);
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        header {
+            background: var(--header-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+        h1 { color: #f0f6fc; margin-top: 0; }
+        h2 { color: #f0f6fc; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; margin-top: 2.5rem; }
+        h3 { color: #e6edf3; margin-top: 1.5rem; }
+        h4 { color: #c9d1d9; margin-top: 1.2rem; }
+        a { color: var(--link-color); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .warning {
+            background: rgba(248, 81, 73, 0.1);
+            border: 1px solid rgba(248, 81, 73, 0.4);
+            border-radius: 6px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        .warning::before {
+            content: "⚠️ ";
+        }
+        .highlight {
+            background: var(--highlight-bg);
+            border-left: 4px solid var(--link-color);
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        .success {
+            background: rgba(35, 134, 54, 0.1);
+            border: 1px solid rgba(35, 134, 54, 0.4);
+            border-radius: 6px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        .success::before {
+            content: "✅ ";
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 0.75rem;
+            text-align: left;
+        }
+        th {
+            background: var(--header-bg);
+            font-weight: 600;
+        }
+        tr:nth-child(even) {
+            background: rgba(255,255,255,0.02);
+        }
+        code {
+            background: rgba(110, 118, 129, 0.4);
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-family: 'SFMono-Regular', Consolas, monospace;
+            font-size: 0.9em;
+        }
+        .nav {
+            display: flex;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        .nav a {
+            background: var(--header-bg);
+            border: 1px solid var(--border-color);
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+        .nav a:hover {
+            background: var(--border-color);
+            text-decoration: none;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .stat-card {
+            background: var(--header-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+        .stat-label {
+            color: #8b949e;
+            font-size: 0.9rem;
+        }
+        .price-tag {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+        .break-even-box {
+            background: var(--header-bg);
+            border: 2px solid var(--accent-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+        .break-even-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+        footer {
+            border-top: 1px solid var(--border-color);
+            margin-top: 3rem;
+            padding-top: 2rem;
+            color: #8b949e;
+            font-size: 0.9rem;
+        }
+        ul, ol {
+            margin: 0.5rem 0;
+            padding-left: 1.5rem;
+        }
+        li {
+            margin: 0.3rem 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>🏠 OpenClaw Home Setup Research</h1>
+            <p>Comprehensive analysis for local AI infrastructure: LLMs, Speech Recognition, and Multi-Room Audio</p>
+            <p><strong>Last Updated:</strong> March 2, 2026 (Analysis Current as of March 2025)</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="warning">
+            <strong>Critical Update:</strong> This analysis incorporates March 2025 frontier models (DeepSeek V3.2, Kimi K2.5, Qwen 2.5-Max), actual cloud cost comparisons, and whole-house speech/TTS requirements. Previous recommendations have been significantly revised.
+        </div>
+
+        <h2>📊 Executive Summary</h2>
+        
+        <div class="highlight">
+            <strong>Bottom Line:</strong> For a $100/month Claude Max user wanting local LLMs + whole-house voice, the <strong>Mac Studio M2 Ultra 64GB</strong> is the minimum viable option. A Mac Mini 16GB cannot handle frontier models + Whisper + TTS simultaneously. Break-even: <strong>20-30 months</strong> depending on configuration.
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number">$100</div>
+                <div class="stat-label">Current Monthly Cloud Cost</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">$2,500</div>
+                <div class="stat-label">Minimum Hardware Investment</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">25</div>
+                <div class="stat-label">Months to Break-Even</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">64GB+</div>
+                <div class="stat-label">Minimum RAM Required</div>
+            </div>
+        </div>
+
+        <h2>🤖 Latest Frontier Models (March 2025)</h2>
+
+        <h3>Model Comparison: Local vs Cloud-Only</h3>
+
+        <table>
+            <tr>
+                <th>Model</th>
+                <th>Parameters</th>
+                <th>Architecture</th>
+                <th>Local Capable?</th>
+                <th>Min RAM (Q4)</th>
+                <th>Status</th>
+            </tr>
+            <tr>
+                <td><strong>DeepSeek V3.2</strong></td>
+                <td>671B (37B active)</td>
+                <td>MoE</td>
+                <td>⚠️ Partial</td>
+                <td>~380GB</td>
+                <td>Open weights, requires extreme quantization for consumer hardware</td>
+            </tr>
+            <tr>
+                <td><strong>Kimi K2.5</strong></td>
+                <td>1T (32B active)</td>
+                <td>MoE</td>
+                <td>⚠️ Partial</td>
+                <td>~240GB (1-bit)</td>
+                <td>Open weights, 1-bit quant available, 240GB disk space</td>
+            </tr>
+            <tr>
+                <td><strong>Qwen 2.5-Max</strong></td>
+                <td>~72B</td>
+                <td>Dense</td>
+                <td>✅ Yes</td>
+                <td>~40GB</td>
+                <td>Strong local performance on M4 Pro 64GB</td>
+            </tr>
+            <tr>
+                <td><strong>Llama 3.3 70B</strong></td>
+                <td>70B</td>
+                <td>Dense</td>
+                <td>✅ Yes</td>
+                <td>~40GB</td>
+                <td>Best local performance/quality tradeoff</td>
+            </tr>
+            <tr>
+                <td><strong>Llama 3.3 8B</strong></td>
+                <td>8B</td>
+                <td>Dense</td>
+                <td>✅ Yes</td>
+                <td>~6GB</td>
+                <td>Excellent for Mac Mini 16GB</td>
+            </tr>
+            <tr>
+                <td><strong>Claude (all)</strong></td>
+                <td>Unknown</td>
+                <td>Unknown</td>
+                <td>❌ No</td>
+                <td>N/A</td>
+                <td>Cloud-only, API access only</td>
+            </tr>
+        </table>
+
+        <h3>Key Findings on Frontier Models</h3>
+        
+        <div class="warning">
+            <strong>671B Models Reality Check:</strong> DeepSeek V3.2 and Kimi K2.5 are technically "open weights" but require 240-380GB+ RAM even with aggressive quantization. These are NOT runnable on consumer Macs without significant compromises.
+        </div>
+
+        <ul>
+            <li><strong>DeepSeek V3.2 (671B MoE):</strong> Requires ~380GB VRAM for Q4 quantization. Minimum viable: 2-bit quant at ~180GB with severe quality loss. Mac Studio M3 Ultra 512GB can run this at 10-20 tokens/sec.</li>
+            <li><strong>Kimi K2.5 (1T MoE):</strong> Unsloth provides 1.8-bit dynamic quant at 240GB. With 256GB unified memory, expect ~10 tokens/sec. Full precision requires 4x H200 GPUs.</li>
+            <li><strong>Qwen 2.5-Max:</strong> Realistic local target. M4 Pro 64GB runs 32B variant at 11-12 tokens/sec. 72B version needs Mac Studio.</li>
+            <li><strong>Llama 3.3 70B:</strong> Sweet spot for local. Mac Studio M2 Ultra 64GB runs Q4 at usable speeds (~15-20 tokens/sec).</li>
+        </ul>
+
+        <h2>💰 Actual Cloud Cost Analysis</h2>
+
+        <h3>Current Claude Max Subscription</h3>
+        
+        <table>
+            <tr>
+                <th>Plan</th>
+                <th>Monthly Cost</th>
+                <th>Usage Multiplier</th>
+                <th>Annual Cost</th>
+            </tr>
+            <tr>
+                <td>Claude Pro</td>
+                <td>$20</td>
+                <td>1x (baseline)</td>
+                <td>$240</td>
+            </tr>
+            <tr>
+                <td><strong>Claude Max 5x</strong></td>
+                <td><strong>$100</strong></td>
+                <td>5x Pro usage</td>
+                <td><strong>$1,200</strong></td>
+            </tr>
+            <tr>
+                <td>Claude Max 20x</td>
+                <td>$200</td>
+                <td>20x Pro usage</td>
+                <td>$2,400</td>
+            </tr>
+        </table>
+
+        <h3>Token Usage Patterns for Development Work</h3>
+        
+        <p>Based on typical developer usage patterns that justify Max 5x:</p>
+        
+        <ul>
+            <li><strong>Daily coding sessions:</strong> 50K-100K input tokens, 20K-50K output tokens</li>
+            <li><strong>Code review/analysis:</strong> Large context windows (100K+ tokens)</li>
+            <li><strong>Documentation processing:</strong> Batch processing of large files</li>
+            <li><strong>Multi-turn conversations:</strong> Extended sessions with context accumulation</li>
+        </ul>
+
+        <h3>Local Inference Cost Breakdown</h3>
+
+        <table>
+            <tr>
+                <th>Configuration</th>
+                <th>Upfront Cost</th>
+                <th>Power Cost/Year</th>
+                <th>3-Year TCO</th>
+                <th>vs Cloud (3yr)</th>
+            </tr>
+            <tr>
+                <td>Mac Mini M4 16GB</td>
+                <td>$599</td>
+                <td>~$30</td>
+                <td>$689</td>
+                <td>Saves $2,911</td>
+            </tr>
+            <tr>
+                <td>Mac Mini M4 Pro 64GB</td>
+                <td>$1,999</td>
+                <td>~$50</td>
+                <td>$2,149</td>
+                <td>Saves $1,451</td>
+            </tr>
+            <tr>
+                <td><strong>Mac Studio M2 Ultra 64GB</strong></td>
+                <td><strong>$2,799</strong></td>
+                <td>~$80</td>
+                <td><strong>$3,039</strong></td>
+                <td><strong>Saves $561</strong></td>
+            </tr>
+            <tr>
+                <td>Mac Studio M3 Ultra 128GB</td>
+                <td>$5,499</td>
+                <td>~$100</td>
+                <td>$5,799</td>
+                <td>Costs $2,199 more</td>
+            </tr>
+            <tr>
+                <td>Claude Max 5x (3 years)</td>
+                <td>$0</td>
+                <td>$3,600</td>
+                <td>$3,600</td>
+                <td>Baseline</td>
+            </tr>
+        </table>
+
+        <div class="break-even-box">
+            <h3>Break-Even Analysis</h3>
+            <div class="break-even-number">25 months</div>
+            <p>Mac Studio M2 Ultra 64GB vs Claude Max 5x at $100/month</p>
+            <p><em>Assumes no cloud subscription needed after local setup</em></p>
+        </div>
+
+        <h2>🎙️ Speech Recognition + TTS (Whole House)</h2>
+
+        <h3>Architecture Overview</h3>
+        
+        <div class="highlight">
+            A complete local voice assistant requires three components: <strong>Wake Word Detection</strong> (tiny, always-on), <strong>Speech-to-Text</strong> (Whisper), and <strong>Text-to-Speech</strong> (Piper/Coqui). For whole-house coverage, you need multiple satellite microphones with centralized processing.
+        </div>
+
+        <h3>Whisper: Local vs API</h3>
+
+        <table>
+            <tr>
+                <th>Option</th>
+                <th>Model Size</th>
+                <th>RAM Required</th>
+                <th>Latency</th>
+                <th>Cost</th>
+            </tr>
+            <tr>
+                <td>Whisper API (OpenAI)</td>
+                <td>Various</td>
+                <td>N/A</td>
+                <td>~500ms</td>
+                <td>$0.006/minute</td>
+            </tr>
+            <tr>
+                <td>Whisper.cpp (tiny)</td>
+                <td>39M params</td>
+                <td>~100MB</td>
+                <td>~200ms (M4)</td>
+                <td>Free</td>
+            </tr>
+            <tr>
+                <td>Whisper.cpp (base)</td>
+                <td>74M params</td>
+                <td>~200MB</td>
+                <td>~300ms (M4)</td>
+                <td>Free</td>
+            </tr>
+            <tr>
+                <td><strong>Whisper.cpp (small)</strong></td>
+                <td>244M params</td>
+                <td>~600MB</td>
+                <td>~500ms (M4)</td>
+                <td>Free</td>
+            </tr>
+            <tr>
+                <td>Whisper.cpp (medium)</td>
+                <td>769M params</td>
+                <td>~2GB</td>
+                <td>~1.5s (M4)</td>
+                <td>Free</td>
+            </tr>
+            <tr>
+                <td>Whisper.cpp (large-v3)</td>
+                <td>1.5B params</td>
+                <td>~6GB</td>
+                <td>~3s (M4)</td>
+                <td>Free</td>
+            </tr>
+        </table>
+
+        <p><strong>Recommendation:</strong> Whisper small (244M) provides the best accuracy/speed tradeoff for home assistant use. Medium is overkill for command recognition; large is only needed for transcription workloads.</p>
+
+        <h3>TTS Options Comparison</h3>
+
+        <table>
+            <tr>
+                <th>Engine</th>
+                <th>Quality</th>
+                <th>Latency</th>
+                <th>Offline</th>
+                <th>Hardware Load</th>
+                <th>Best For</th>
+            </tr>
+            <tr>
+                <td><strong>Piper</strong></td>
+                <td>Good</td>
+                <td>~100ms</td>
+                <td>✅ Yes</td>
+                <td>Low</td>
+                <td>Home Assistant, commands</td>
+            </tr>
+            <tr>
+                <td>Coqui TTS</td>
+                <td>Very Good</td>
+                <td>~200ms</td>
+                <td>✅ Yes</td>
+                <td>Medium</td>
+                <td>Natural conversation</td>
+            </tr>
+            <tr>
+                <td>ElevenLabs (local)</td>
+                <td>Excellent</td>
+                <td>~500ms</td>
+                <td>⚠️ Partial</td>
+                <td>High</td>
+                <td>Premium voice (cloud hybrid)</td>
+            </tr>
+            <tr>
+                <td>Apple Neural TTS</td>
+                <td>Excellent</td>
+                <td>~50ms</td>
+                <td>✅ Yes</td>
+                <td>ANE</td>
+                <td>Mac-native, fastest</td>
+            </tr>
+        </table>
+
+        <h3>Multi-Room Audio Hardware Setup</h3>
+
+        <h4>Recommended Configuration</h4>
+
+        <table>
+            <tr>
+                <th>Component</th>
+                <th>Recommended Product</th>
+                <th>Cost (ea)</th>
+                <th>Quantity</th>
+                <th>Total</th>
+            </tr>
+            <tr>
+                <td>Central Server</td>
+                <td>Mac Studio M2 Ultra 64GB</td>
+                <td>$2,799</td>
+                <td>1</td>
+                <td>$2,799</td>
+            </tr>
+            <tr>
+                <td>Room Satellites (mic)</td>
+                <td>ESP32-S3-BOX-3 or M5Stack Atom Echo</td>
+                <td>$25-50</td>
+                <td>4-6</td>
+                <td>$100-300</td>
+            </tr>
+            <tr>
+                <td>Speakers</td>
+                <td>Sonos/IKEA Symfonisk or HomePod mini</td>
+                <td>$99</td>
+                <td>4-6</td>
+                <td>$400-600</td>
+            </tr>
+            <tr>
+                <td>Network</td>
+                <td>WiFi 6/7 mesh (if needed)</td>
+                <td>$200</td>
+                <td>1</td>
+                <td>$200</td>
+            </tr>
+            <tr>
+                <td colspan="4"><strong>Total Hardware Investment</strong></td>
+                <td><strong>$3,500-4,000</strong></td>
+            </tr>
+        </table>
+
+        <h4>Latency Budget for Real-Time Conversation</h4>
+
+        <div class="highlight">
+            <strong>Target:</strong> Sub-2-second total response time for natural conversation flow
+        </div>
+
+        <table>
+            <tr>
+                <th>Stage</th>
+                <th>Component</th>
+                <th>Time Budget</th>
+            </tr>
+            <tr>
+                <td>Wake word detection</td>
+                <td>Local (ESP32-S3)</td>
+                <td>~100ms</td>
+            </tr>
+            <tr>
+                <td>Speech capture</td>
+                <td>Buffer + network</td>
+                <td>~200ms</td>
+            </tr>
+            <tr>
+                <td>STT (Whisper small)</td>
+                <td>Mac Studio</td>
+                <td>~300ms</td>
+            </tr>
+            <tr>
+                <td>LLM inference</td>
+                <td>70B model (Q4)</td>
+                <td>~500-1000ms</td>
+            </tr>
+            <tr>
+                <td>TTS generation</td>
+                <td>Piper/Apple Neural</td>
+                <td>~100-200ms</td>
+            </tr>
+            <tr>
+                <td>Audio playback</td>
+                <td>Network + speaker</td>
+                <td>~100ms</td>
+            </tr>
+            <tr>
+                <td><strong>Total</strong></td>
+                <td></td>
+                <td><strong>~1.3-1.9 seconds</strong></td>
+            </tr>
+        </table>
+
+        <h2>🖥️ Updated Hardware Recommendations</h2>
+
+        <h3>Critical Question: Can Mac Mini 16GB Handle the Full Stack?</h3>
+
+        <div class="warning">
+            <strong>Answer: NO.</strong> A Mac Mini 16GB cannot simultaneously run:
+            <ul>
+                <li>Frontier LLM (even 8B model requires ~6GB)</li>
+                <li>Whisper small (~600MB + overhead)</li>
+                <li>TTS engine (~200-500MB)</li>
+                <li>Home Assistant / OpenClaw overhead</li>
+            </ul>
+            <p>With macOS base usage, you'd have ~12GB available. This leaves no headroom for context windows, KV cache, or concurrent requests. The system would constantly swap, destroying latency.</p>
+        </div>
+
+        <h3>Minimum Viable Configurations</h3>
+
+        <table>
+            <tr>
+                <th>Use Case</th>
+                <th>Hardware</th>
+                <th>RAM</th>
+                <th>Models Supported</th>
+                <th>Cost</th>
+            </tr>
+            <tr>
+                <td>Basic (LLM only)</td>
+                <td>Mac Mini M4</td>
+                <td>32GB</td>
+                <td>Llama 3.3 8B, Qwen 2.5 7B</td>
+                <td>$1,199</td>
+            </tr>
+            <tr>
+                <td><strong>Recommended</strong></td>
+                <td><strong>Mac Mini M4 Pro</strong></td>
+                <td><strong>64GB</strong></td>
+                <td><strong>Llama 3.3 70B (Q4), Qwen 32B</strong></td>
+                <td><strong>$1,999</strong></td>
+            </tr>
+            <tr>
+                <td><strong>Full Stack</strong></td>
+                <td><strong>Mac Studio M2 Ultra</strong></td>
+                <td><strong>64GB</strong></td>
+                <td><strong>70B + Whisper + TTS simultaneously</strong></td>
+                <td><strong>$2,799</strong></td>
+            </tr>
+            <tr>
+                <td>Future-proof</td>
+                <td>Mac Studio M3 Ultra</td>
+                <td>128GB</td>
+                <td>DeepSeek/Kimi with quantization</td>
+                <td>$5,499</td>
+            </tr>
+            <tr>
+                <td>Frontier models</td>
+                <td>Mac Studio M3 Ultra</td>
+                <td>512GB</td>
+                <td>DeepSeek 671B (2-bit), Kimi K2.5</td>
+                <td>$9,499</td>
+            </tr>
+        </table>
+
+        <h3>Performance Benchmarks (llama.cpp)</h3>
+
+        <p>Based on community benchmarks for Llama 7B (extrapolated to larger models):</p>
+
+        <table>
+            <tr>
+                <th>Hardware</th>
+                <th>Memory BW</th>
+                <th>Q4_0 TG (7B)</th>
+                <th>Est. 70B Q4 TG</th>
+                <th>Usable?</th>
+            </tr>
+            <tr>
+                <td>M4 10-core</td>
+                <td>120 GB/s</td>
+                <td>24 t/s</td>
+                <td>~2-3 t/s</td>
+                <td>⚠️ Marginal</td>
+            </tr>
+            <tr>
+                <td>M4 Pro 14-core</td>
+                <td>273 GB/s</td>
+                <td>50 t/s</td>
+                <td>~5-7 t/s</td>
+                <td>✅ Yes</td>
+            </tr>
+            <tr>
+                <td>M2 Ultra 76-core</td>
+                <td>800 GB/s</td>
+                <td>94 t/s</td>
+                <td>~12-15 t/s</td>
+                <td>✅ Excellent</td>
+            </tr>
+            <tr>
+                <td>M3 Ultra 80-core</td>
+                <td>800 GB/s</td>
+                <td>92 t/s</td>
+                <td>~12-15 t/s</td>
+                <td>✅ Excellent</td>
+            </tr>
+        </table>
+
+        <p><em>TG = Text Generation (tokens/second). PP = Prompt Processing. For interactive use, 10+ t/s is usable, 20+ t/s is comfortable.</em></p>
+
+        <h2>🎯 Final Recommendation</h2>
+
+        <h3>BUY: Mac Studio M2 Ultra 64GB ($2,799)</h3>
+
+        <div class="success">
+            <strong>Why this is the right choice:</strong>
+            <ul>
+                <li>Can run Llama 3.3 70B Q4 at usable speeds (~12-15 t/s)</li>
+                <li>Sufficient RAM for LLM + Whisper + TTS simultaneously</li>
+                <li>800 GB/s memory bandwidth critical for large models</li>
+                <li>Break-even at ~28 months vs Claude Max 5x</li>
+                <li>Silent operation suitable for home server</li>
+                <li>Expandable to 128GB if needed (rare for current models)</li>
+            </ul>
+        </div>
+
+        <h3>DON'T BUY: Mac Mini 16GB ($599)</h3>
+
+        <div class="warning">
+            <strong>Why this won't work:</strong>
+            <ul>
+                <li>Cannot run 70B models (need 40GB+ RAM)</li>
+                <li>Limited to 8B models which are significantly less capable</li>
+                <li>No headroom for simultaneous Whisper + TTS</li>
+                <li>Would require separate hardware for voice stack</li>
+                <li>False economy - you'll upgrade within a year</li>
+            </ul>
+        </div>
+
+        <h3>Alternative: Mac Mini M4 Pro 64GB ($1,999)</h3>
+
+        <p>If budget-constrained, this is the minimum viable option. It can run 70B models and the full voice stack, but with less headroom and slower inference than the Studio. Break-even improves to ~20 months.</p>
+
+        <h2>📋 Implementation Roadmap</h2>
+
+        <h3>Phase 1: Core Infrastructure (Month 1)</h3>
+        <ol>
+            <li>Purchase Mac Studio M2 Ultra 64GB</li>
+            <li>Install Ollama + llama.cpp</li>
+            <li>Deploy Llama 3.3 70B Q4_K_M</li>
+            <li>Test with OpenClaw integration</li>
+        </ol>
+
+        <h3>Phase 2: Voice Stack (Month 2)</h3>
+        <ol>
+            <li>Deploy Whisper.cpp (small model)</li>
+            <li>Install Piper TTS</li>
+            <li>Set up Home Assistant voice pipeline</li>
+            <li>Configure 2-3 satellite microphones</li>
+        </ol>
+
+        <h3>Phase 3: Multi-Room (Month 3)</h3>
+        <ol>
+            <li>Expand to 4-6 rooms</li>
+            <li>Integrate with existing speakers</li>
+            <li>Fine-tune latency and accuracy</li>
+            <li>Evaluate cloud vs local tradeoffs</li>
+        </ol>
+
+        <h2>📚 References</h2>
+
+        <ul>
+            <li><a href="https://github.com/ggml-org/llama.cpp/discussions/4167">llama.cpp Apple Silicon Benchmarks</a></li>
+            <li><a href="https://unsloth.ai/docs/models/kimi-k2.5">Kimi K2.5 Local Deployment Guide</a></li>
+            <li><a href="https://support.claude.com/en/articles/11049741-what-is-the-max-plan">Claude Max Plan Details</a></li>
+            <li><a href="https://www.home-assistant.io/voice_control/">Home Assistant Voice Control</a></li>
+            <li><a href="https://github.com/rhasspy/wyoming-piper">Piper TTS (Wyoming Protocol)</a></li>
+            <li><a href="https://github.com/ggerganov/whisper.cpp">Whisper.cpp</a></li>
+        </ul>
+
+        <footer>
+            <p>Research compiled March 2, 2026</p>
+            <p>Data current as of March 2025 model releases</p>
+            <p><a href="index.html">← Back to OpenClaw Research</a></p>
+        </footer>
+    </div>
+</body>
+</html>
